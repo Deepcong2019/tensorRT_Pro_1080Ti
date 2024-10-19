@@ -35,7 +35,6 @@
     <ClCompile Include="src\application\app_retinaface\retinaface.cpp" />
     <ClCompile Include="src\application\app_scrfd.cpp" />
     <ClCompile Include="src\application\app_scrfd\scrfd.cpp" />
-    <ClCompile Include="src\application\app_yolo.cpp" />
     <ClCompile Include="src\application\app_bert.cpp" />
     <ClCompile Include="src\application\app_yolo_gpuptr.cpp" />
     <ClCompile Include="src\application\app_yolo_gpuptr\yolo_gpuptr.cpp" />

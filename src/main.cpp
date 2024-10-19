@@ -1,93 +1,162 @@
 
-#include <stdio.h>
-#include <string.h>
+#include <builder/trt_builder.hpp>
+#include <infer/trt_infer.hpp>
 #include <common/ilogger.hpp>
-#include <functional>
+#include "app_yolo/yolo.hpp"
+#include "app_yolo/multi_gpu.hpp"
 
-int app_yolo();
-int app_yolo_gpuptr();
-int app_alphapose();
-int app_fall_recognize();
-int app_retinaface();
-int app_arcface();
-int app_arcface_video();
-int app_arcface_tracker();
-int app_scrfd();
-int app_high_performance();
-int app_lesson();
-int app_plugin();    
-int app_yolo_fast();
-int app_centernet();
-int app_dbface();
-int app_bert();
-int direct_yolo();
-int direct_unet();
-int direct_mae();
-int direct_classifier();
-int test_warpaffine();
-int test_yolo_map();
+using namespace std;
 
-int main(int argc, char** argv){
-    
-    const char* method = "bert";
-    if(argc > 1){
-        method = argv[1];
+static const char* cocolabels[] = {
+    "person", "bicycle", "car", "motorcycle", "airplane",
+    "bus", "train", "truck", "boat", "traffic light", "fire hydrant",
+    "stop sign", "parking meter", "bench", "bird", "cat", "dog", "horse",
+    "sheep", "cow", "elephant", "bear", "zebra", "giraffe", "backpack",
+    "umbrella", "handbag", "tie", "suitcase", "frisbee", "skis",
+    "snowboard", "sports ball", "kite", "baseball bat", "baseball glove",
+    "skateboard", "surfboard", "tennis racket", "bottle", "wine glass",
+    "cup", "fork", "knife", "spoon", "bowl", "banana", "apple", "sandwich",
+    "orange", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake",
+    "chair", "couch", "potted plant", "bed", "dining table", "toilet", "tv",
+    "laptop", "mouse", "remote", "keyboard", "cell phone", "microwave",
+    "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase",
+    "scissors", "teddy bear", "hair drier", "toothbrush"
+};
+
+bool requires(const char* name);
+
+static void append_to_file(const string& file, const string& data) {
+    FILE* f = fopen(file.c_str(), "a+");
+    if (f == nullptr) {
+        INFOE("Open %s failed.", file.c_str());
+        return;
     }
 
-    if(strcmp(method, "yolo") == 0){
-        app_yolo();
-    }else if(strcmp(method, "yolo_gpuptr") == 0){
-        app_yolo_gpuptr();
-    }else if(strcmp(method, "yolo_fast") == 0){
-        app_yolo_fast();
-    }else if(strcmp(method, "dyolo") == 0){
-        direct_yolo();
-    }else if(strcmp(method, "dunet") == 0){
-        direct_unet();
-    }else if(strcmp(method, "dmae") == 0){
-        direct_mae();
-    }else if(strcmp(method, "dclassifier") == 0){
-        direct_classifier();
-    }else if(strcmp(method, "bert") == 0){
-        app_bert();
-    }else if(strcmp(method, "centernet") == 0){
-        app_centernet();
-    }else if(strcmp(method, "dbface") == 0){
-        app_dbface();
-    }else if(strcmp(method, "alphapose") == 0){
-        app_alphapose();
-    }else if(strcmp(method, "fall_recognize") == 0){
-        app_fall_recognize();
-    }else if(strcmp(method, "retinaface") == 0){
-        app_retinaface(); 
-    }else if(strcmp(method, "arcface") == 0){
-        app_arcface();
-    }else if(strcmp(method, "arcface_video") == 0){
-        app_arcface_video();
-    }else if(strcmp(method, "arcface_tracker") == 0){
-        app_arcface_tracker();
-    }else if(strcmp(method, "scrfd") == 0){
-        app_scrfd();
-    }else if(strcmp(method, "test_warpaffine") == 0){
-        test_warpaffine();
-    }else if(strcmp(method, "test_yolo_map") == 0){
-        test_yolo_map();
-    }else if(strcmp(method, "high_perf") == 0){
-        app_high_performance();
-    }else if(strcmp(method, "lesson") == 0){
-        app_lesson();
-    }else if(strcmp(method, "plugin") == 0){
-        app_plugin();
-    }else{
-        printf("Unknow method: %s\n", method);
-        printf(
-            "Help: \n"
-            "    ./pro method[yolo、alphapose、fall、retinaface、arcface、arcface_video、arcface_tracker]\n"
-            "\n"
-            "    ./pro yolo\n"
-            "    ./pro alphapose\n"
-            "    ./pro fall\n"
+    fprintf(f, "%s\n", data.c_str());
+    fclose(f);
+}
+
+static void inference_and_performance(int deviceid, const string& engine_file, TRT::Mode mode, Yolo::Type type, const string& model_name) {
+
+    auto engine = Yolo::create_infer(
+        engine_file,                // engine file
+        type,                       // yolo type, Yolo::Type::V5 / Yolo::Type::X
+        deviceid,                   // gpu id
+        0.25f,                      // confidence threshold
+        0.45f,                      // nms threshold
+        Yolo::NMSMethod::FastGPU,   // NMS method, fast GPU / CPU
+        1024,                       // max objects
+        false                       // preprocess use multi stream
+    );
+    if (engine == nullptr) {
+        INFOE("Engine is nullptr");
+        return;
+    }
+
+    auto files = iLogger::find_files("inference", "*.jpg;*.jpeg;*.png;*.gif;*.tif");
+    vector<cv::Mat> images;
+    for (int i = 0; i < files.size(); ++i) {
+        auto image = cv::imread(files[i]);
+        images.emplace_back(image);
+    }
+
+    // warmup
+    vector<shared_future<Yolo::BoxArray>> boxes_array;
+    for (int i = 0; i < 10; ++i)
+        boxes_array = engine->commits(images);
+    boxes_array.back().get();
+    boxes_array.clear();
+
+    /////////////////////////////////////////////////////////
+    const int ntest = 100;
+    auto begin_timer = iLogger::timestamp_now_float();
+
+    for (int i = 0; i < ntest; ++i)
+        boxes_array = engine->commits(images);
+
+    // wait all result
+    boxes_array.back().get();
+
+    float inference_average_time = (iLogger::timestamp_now_float() - begin_timer) / ntest / images.size();
+    auto type_name = Yolo::type_name(type);
+    auto mode_name = TRT::mode_string(mode);
+    INFO("%s[%s] average: %.2f ms / image, FPS: %.2f", engine_file.c_str(), type_name, inference_average_time, 1000 / inference_average_time);
+    append_to_file("perf.result.log", iLogger::format("%s,%s,%s,%f", model_name.c_str(), type_name, mode_name, inference_average_time));
+
+    string root = iLogger::format("%s_%s_%s_result", model_name.c_str(), type_name, mode_name);
+    iLogger::rmtree(root);
+    iLogger::mkdir(root);
+
+    for (int i = 0; i < boxes_array.size(); ++i) {
+
+        auto& image = images[i];
+        auto boxes = boxes_array[i].get();
+
+        for (auto& obj : boxes) {
+            uint8_t b, g, r;
+            tie(b, g, r) = iLogger::random_color(obj.class_label);
+            cv::rectangle(image, cv::Point(obj.left, obj.top), cv::Point(obj.right, obj.bottom), cv::Scalar(b, g, r), 5);
+
+            auto name = cocolabels[obj.class_label];
+            auto caption = iLogger::format("%s %.2f", name, obj.confidence);
+            int width = cv::getTextSize(caption, 0, 1, 2, nullptr).width + 10;
+            cv::rectangle(image, cv::Point(obj.left - 3, obj.top - 33), cv::Point(obj.left + width, obj.top), cv::Scalar(b, g, r), -1);
+            cv::putText(image, caption, cv::Point(obj.left, obj.top - 5), 0, 1, cv::Scalar::all(0), 2, 16);
+        }
+
+        string file_name = iLogger::file_name(files[i], false);
+        string save_path = iLogger::format("%s/%s.jpg", root.c_str(), file_name.c_str());
+        INFO("Save to %s, %d object, average time %.2f ms", save_path.c_str(), boxes.size(), inference_average_time);
+        cv::imwrite(save_path, image);
+    }
+    engine.reset();
+}
+
+static void test(Yolo::Type type, TRT::Mode mode, const string& model) {
+
+    int deviceid = 0;
+    auto mode_name = TRT::mode_string(mode);
+    TRT::set_device(deviceid);
+
+    auto int8process = [=](int current, int count, const vector<string>& files, shared_ptr<TRT::Tensor>& tensor) {
+
+        INFO("Int8 %d / %d", current, count);
+        for (int i = 0; i < files.size(); ++i) {
+            auto image = cv::imread(files[i]);
+            Yolo::image_to_tensor(image, tensor, type, i);
+        }
+        };
+
+    const char* name = model.c_str();
+    INFO("===================== test %s %s %s ==================================", Yolo::type_name(type), mode_name, name);
+
+    if (not requires(name))
+        return;
+
+    string onnx_file = iLogger::format("%s.onnx", name);
+    string model_file = iLogger::format("%s.%s.trtmodel", name, mode_name);
+    int test_batch_size = 16;
+
+    if (not iLogger::exists(model_file)) {
+        TRT::compile(
+            mode,                       // FP32、FP16、INT8
+            test_batch_size,            // max batch size
+            onnx_file,                  // source 
+            model_file,                 // save to
+            {},                         // 重定义输入的shape
+            int8process,                // 指定int8标定数据的处理回调函数
+            "inference"                 // int8标定数据所在目录
         );
-    } 
+    }
+    
+    inference_and_performance(deviceid, model_file, mode, type, name);
+}
+
+
+
+int main() {
+
+    test(Yolo::Type::V7, TRT::Mode::FP32, "yolov7");
+
     return 0;
 }
