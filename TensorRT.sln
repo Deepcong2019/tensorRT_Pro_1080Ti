@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34931.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TensorRT", "TensorRT.vcxproj", "{FBF775F5-DAB4-4BC1-97A9-D36301073438}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "C:\Users\Administrator\source\repos\Project1\Project1.vcxproj", "{3A97E7EC-1BD5-45D7-9938-F0AC762C8609}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_lambda", "test_lambda\test_lambda.vcxproj", "{8CBB6759-5082-417B-82A1-43A74903645A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_requires", "test_requires\Project1.vcxproj", "{3A97E7EC-1BD5-45D7-9938-F0AC762C8609}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,18 @@ Global
 		{FBF775F5-DAB4-4BC1-97A9-D36301073438}.Release|x64.Build.0 = Release|x64
 		{FBF775F5-DAB4-4BC1-97A9-D36301073438}.Release|x86.ActiveCfg = Release|x64
 		{FBF775F5-DAB4-4BC1-97A9-D36301073438}.Release|x86.Build.0 = Release|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Debug|x64.ActiveCfg = Debug|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Debug|x64.Build.0 = Debug|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Debug|x86.ActiveCfg = Debug|Win32
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Debug|x86.Build.0 = Debug|Win32
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Python|x64.ActiveCfg = Debug|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Python|x64.Build.0 = Debug|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Python|x86.ActiveCfg = Debug|Win32
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Python|x86.Build.0 = Debug|Win32
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Release|x64.ActiveCfg = Release|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Release|x64.Build.0 = Release|x64
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Release|x86.ActiveCfg = Release|Win32
+		{8CBB6759-5082-417B-82A1-43A74903645A}.Release|x86.Build.0 = Release|Win32
 		{3A97E7EC-1BD5-45D7-9938-F0AC762C8609}.Debug|x64.ActiveCfg = Debug|x64
 		{3A97E7EC-1BD5-45D7-9938-F0AC762C8609}.Debug|x64.Build.0 = Debug|x64
 		{3A97E7EC-1BD5-45D7-9938-F0AC762C8609}.Debug|x86.ActiveCfg = Debug|Win32
