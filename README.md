@@ -1,3 +1,3 @@
 # Windows support
-- 1. Move all files to ../
-- 2. Open TensorRT.sln and build project.
+- 1. windows直接运行；
+- 2. linux:编写CMakeLists.txt；
