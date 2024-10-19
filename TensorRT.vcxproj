@@ -52,7 +52,6 @@
     <ClCompile Include="src\direct\direct_unet.cpp" />
     <ClCompile Include="src\direct\direct_yolo.cpp" />
     <ClCompile Include="src\direct\direct_classifier.cpp" />
-    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tensorRT\builder\trt_builder.cpp" />
     <ClCompile Include="src\tensorRT\common\cuda_tools.cpp" />
     <ClCompile Include="src\tensorRT\common\ilogger.cpp" />
@@ -74,7 +73,7 @@
     <ClCompile Include="src\tensorRT\onnx_parser\RNNHelpers.cpp" />
     <ClCompile Include="src\tensorRT\onnx_parser\ShapedWeights.cpp" />
     <ClCompile Include="src\tensorRT\onnx_parser\ShapeTensor.cpp" />
-    <ClCompile Include="src\video_test_yolo.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <None Include="dll_export.def" />
   </ItemGroup>
   <ItemGroup>
