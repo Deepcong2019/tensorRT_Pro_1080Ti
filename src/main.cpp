@@ -112,7 +112,7 @@ int main() {
         }
 
       
-        if (cv::waitKey(30) == 27) { // 按下 ESC 键退出
+        if (cv::waitKey(1) == 27) { // 按下 ESC 键退出
             break;
         }
     }
