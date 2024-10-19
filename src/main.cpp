@@ -29,7 +29,7 @@ int test_yolo_map();
 
 int main(int argc, char** argv){
     
-    const char* method = "yolo";
+    const char* method = "bert";
     if(argc > 1){
         method = argv[1];
     }
