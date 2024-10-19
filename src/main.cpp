@@ -154,9 +154,9 @@ static void test(Yolo::Type type, TRT::Mode mode, const string& model) {
 
 
 
-int main() {
-
-    test(Yolo::Type::V7, TRT::Mode::FP32, "yolov7");
-
-    return 0;
-}
+//int main() {
+//
+//    test(Yolo::Type::V7, TRT::Mode::FP32, "yolov7");
+//
+//    return 0;
+//}

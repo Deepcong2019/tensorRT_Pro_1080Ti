@@ -259,6 +259,9 @@
     <ClCompile Include="src\application\app_alphapose_old\alpha_pose_old.cpp">
       <Filter>src\application\app_alphapose_old</Filter>
     </ClCompile>
+    <ClCompile Include="src\video_test_yolo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\tensorRT\builder\trt_builder.hpp">

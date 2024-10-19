@@ -74,6 +74,7 @@
     <ClCompile Include="src\tensorRT\onnx_parser\RNNHelpers.cpp" />
     <ClCompile Include="src\tensorRT\onnx_parser\ShapedWeights.cpp" />
     <ClCompile Include="src\tensorRT\onnx_parser\ShapeTensor.cpp" />
+    <ClCompile Include="src\video_test_yolo.cpp" />
     <None Include="dll_export.def" />
   </ItemGroup>
   <ItemGroup>
