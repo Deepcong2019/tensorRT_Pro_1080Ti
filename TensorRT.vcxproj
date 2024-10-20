@@ -74,6 +74,7 @@
     <ClCompile Include="src\tensorRT\onnx_parser\ShapedWeights.cpp" />
     <ClCompile Include="src\tensorRT\onnx_parser\ShapeTensor.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\YoloSDK.cpp" />
     <None Include="dll_export.def" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +96,7 @@
     <ClInclude Include="src\application\common\face_detector.hpp" />
     <ClInclude Include="src\application\tools\deepsort.hpp" />
     <ClInclude Include="src\application\tools\pybind11.hpp" />
+    <ClInclude Include="src\export_global.hpp" />
     <ClInclude Include="src\tensorRT\builder\trt_builder.hpp" />
     <ClInclude Include="src\tensorRT\common\cuda_tools.hpp" />
     <ClInclude Include="src\tensorRT\common\ilogger.hpp" />
@@ -130,6 +132,7 @@
     <ClInclude Include="src\tensorRT\onnx_parser\toposort.hpp" />
     <ClInclude Include="src\tensorRT\onnx_parser\trt_utils.hpp" />
     <ClInclude Include="src\tensorRT\onnx_parser\utils.hpp" />
+    <ClInclude Include="src\YoloSDK.hpp" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="src\application\app_centernet\centernet_decode.cu" />
@@ -163,7 +166,7 @@
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -206,9 +209,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>workspace</OutDir>
-    <IntDir>build\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(ProjectDir)3rdParty\cuda12.2\include;$(ProjectDir)3rdParty\opencv4.9.0-cuda\include;$(ProjectDir)3rdParty\protobuf3.11.4\include;$(ProjectDir)3rdParty\TensorRT-8.6.1.6\include;$(ProjectDir)src\tensorRT;$(ProjectDir)src\application;$(ProjectDir)src\tensorRT\common;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Platform)</OutDir>
+    <IntDir>$(SolutionDir)$(Platform)\$(Configuration)</IntDir>
+    <IncludePath>$(ProjectDir)3rdParty\cuda12.2\include;$(ProjectDir)3rdParty\opencv4.9.0-cuda\include;$(ProjectDir)3rdParty\protobuf3.11.4\include;$(ProjectDir)3rdParty\TensorRT-8.6.1.6\include;$(ProjectDir)src\tensorRT;$(ProjectDir)src\application;$(ProjectDir)src\tensorRT\common;$(ProjectDir)src;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)3rdParty\TensorRT-8.6.1.6\lib;$(ProjectDir)3rdParty\protobuf3.11.4\lib;$(ProjectDir)3rdParty\opencv4.9.0-cuda\lib;$(ProjectDir)3rdParty\cuda12.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Python|x64'">
@@ -255,7 +258,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;TRT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <OpenMPSupport>true</OpenMPSupport>

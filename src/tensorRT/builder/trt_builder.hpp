@@ -88,13 +88,13 @@ namespace TRT {
 		std::vector<int> dims_;
 	};
 
-	enum class Mode : int {
+	enum class  Mode : int {
 		FP32,
 		FP16,
 		INT8
 	};
 
-	const char* mode_string(Mode type);
+	const char*   mode_string(Mode type);
 
 	void set_layer_hook_reshape(const LayerHookFuncReshape& func);
 

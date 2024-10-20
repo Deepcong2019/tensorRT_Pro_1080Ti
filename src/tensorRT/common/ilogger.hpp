@@ -7,7 +7,7 @@
 #include <vector>
 #include <tuple>
 #include <time.h>
-
+#include "export_global.hpp"
 
 #if defined(_WIN32)
 #	define U_OS_WINDOWS
@@ -49,7 +49,7 @@ namespace iLogger{
     bool delete_file(const string& path);
     bool rmtree(const string& directory, bool ignore_fail=false);
     bool exists(const string& path);
-    string format(const char* fmt, ...);
+    string TRT_EXPORT format(const char* fmt, ...);
     FILE* fopen_mkdirs(const string& path, const string& mode);
     string file_name(const string& path, bool include_suffix=true);
     string directory(const string& path);

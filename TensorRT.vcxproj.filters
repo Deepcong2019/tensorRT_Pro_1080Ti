@@ -259,6 +259,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\YoloSDK.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\tensorRT\builder\trt_builder.hpp">
@@ -419,6 +422,12 @@
     </ClInclude>
     <ClInclude Include="src\application\app_alphapose_old\alpha_pose_old.hpp">
       <Filter>src\application\app_alphapose_old</Filter>
+    </ClInclude>
+    <ClInclude Include="src\YoloSDK.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\export_global.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,38 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: 中间目录(D:\tensorRT_Pro\x64\Release\)包含从另一个项目(TensorRT.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  test_yolo.cpp
+D:\tensorRT_Pro\src\tensorRT\builder\trt_builder.hpp(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“test_yolo.cpp”)
+  
+D:\tensorRT_Pro\src\tensorRT\common\trt_tensor.hpp(89,52): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“test_yolo.cpp”)
+  
+D:\tensorRT_Pro\src\tensorRT\common\trt_tensor.hpp(101,62): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  (编译源文件“test_yolo.cpp”)
+  
+D:\tensorRT_Pro\src\YoloSDK.hpp(18,10): warning C4251: “YoloSDK::Params::onnx_file”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 struct“YoloSDK::Params”的客户端使用 
+  (编译源文件“test_yolo.cpp”)
+  C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.38.33130\include\xstring(5127,29):
+  参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明
+  
+D:\tensorRT_Pro\src\YoloSDK.hpp(19,10): warning C4251: “YoloSDK::Params::engine_file”: class“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”需要有 dll 接口由 struct“YoloSDK::Params”的客户端使用 
+  (编译源文件“test_yolo.cpp”)
+  C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.38.33130\include\xstring(5127,29):
+  参见“std::basic_string<char,std::char_traits<char>,std::allocator<char>>”的声明
+  
+D:\tensorRT_Pro\src\YoloSDK.hpp(38,18): warning C4251: “YoloSDK::DetectResult::boxes_array”: class“std::vector<ObjectDetector::Box,std::allocator<ObjectDetector::Box>>”需要有 dll 接口由 struct“YoloSDK::DetectResult”的客户端使用 
+  (编译源文件“test_yolo.cpp”)
+  D:\tensorRT_Pro\src\application\common\object_detector.hpp(18,18):
+  参见“std::vector<ObjectDetector::Box,std::allocator<ObjectDetector::Box>>”的声明
+  
+D:\tensorRT_Pro\src\YoloSDK.hpp(44,28): warning C4251: “YoloSDK::YoloObj::engine_yolo”: class“std::shared_ptr<Yolo::Infer>”需要有 dll 接口由 class“YoloSDK::YoloObj”的客户端使用 
+  (编译源文件“test_yolo.cpp”)
+  D:\tensorRT_Pro\src\application\app_yolo\yolo.hpp(41,5):
+  参见“std::shared_ptr<Yolo::Infer>”的声明
+  
+  正在生成代码
+  1 of 77 functions ( 1.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  test_yolo.vcxproj -> D:\tensorRT_Pro\x64\test_yolo.exe

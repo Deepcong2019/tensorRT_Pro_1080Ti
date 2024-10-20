@@ -18,7 +18,7 @@ namespace Yolo{
     using namespace std;
     using namespace ObjectDetector;
 
-    enum class Type : int{
+    enum class  Type : int{
         V5 = 0,
         X  = 1,
         V3 = 2,
