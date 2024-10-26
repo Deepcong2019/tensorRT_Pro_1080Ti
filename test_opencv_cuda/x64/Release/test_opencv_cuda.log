@@ -1,0 +1,7 @@
+﻿  test_cuda_gauss.cpp
+  正在生成代码
+  2 of 95 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  test_opencv_cuda.vcxproj -> D:\tensorRT_Pro\x64\Release\test_opencv_cuda.exe
